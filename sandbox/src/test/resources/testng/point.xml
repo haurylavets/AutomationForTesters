@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd" >
+<suite name="Point tests">
+    <test name="Point tests">
+        <classes>
+            <class name="PointTests" />
+        </classes>
+    </test>
+</suite>
