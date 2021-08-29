@@ -24,11 +24,11 @@ public class PointTests extends UnitTestsHooks {
         double expected = 6.4;
         Point p1 = new Point(1, 4);
         Point p2 = new Point(5, 9);
-        Assert.assertTrue(Math.abs(Point.distance(p1, p2) - expected) < delta);
+        Assert.assertTrue(Math.abs(p1.distance(p2) - expected) < delta);
     }
 
     @Test(dataProvider = "positiveTests")
     public void dataDriven(String _desc, Point p1, Point p2, double expected) {
-        Assert.assertEquals(Point.distance(p1, p2), expected);
+        Assert.assertEquals(p1.distance(p2), expected);
     }
 }
