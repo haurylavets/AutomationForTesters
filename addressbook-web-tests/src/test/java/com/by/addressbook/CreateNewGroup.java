@@ -1,14 +1,18 @@
 package com.by.addressbook;
 
-import org.openqa.selenium.*;
+import com.by.addressbook.models.GroupData;
+import org.openqa.selenium.By;
+import org.openqa.selenium.NoAlertPresentException;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
-import org.testng.annotations.*;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Test;
 
 import java.util.concurrent.TimeUnit;
 
-import static org.testng.Assert.fail;
-
-public class UntitledTestCase {
+public class CreateNewGroup {
     private WebDriver wd;
 
 
