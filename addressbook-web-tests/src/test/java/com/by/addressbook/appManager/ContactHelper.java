@@ -2,16 +2,12 @@ package com.by.addressbook.appManager;
 
 import com.by.addressbook.models.ContactData;
 import org.openqa.selenium.By;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.WebDriver;
 
 public class ContactHelper extends BaseHelper {
 
-    public ContactHelper(ChromeDriver wd) {
+    public ContactHelper(WebDriver wd) {
         super(wd);
-    }
-
-    public void submitContactCreation() {
-        click(By.xpath("//div[@id='content']/form/input[21]"));
     }
 
     public void fillContactForm(ContactData contactData) {
@@ -24,5 +20,22 @@ public class ContactHelper extends BaseHelper {
         select(By.name("bday"), contactData.getBirthDay());
         select(By.name("bmonth"), contactData.getBirthMonth());
         type(By.name("byear"), contactData.getBirthYear());
+    }
+
+    public void submitContactCreation() {
+        click(By.cssSelector("input[value=Enter]"));
+    }
+
+    public void submitContactUpdate() {
+        click(By.cssSelector("input[value=Update]"));
+    }
+
+    public void selectContact() {
+        click(By.name("selected[]"));
+    }
+
+    public void deleteSelectedContact() {
+        click(By.cssSelector("input[value=Delete]"));
+        acceptAlert();
     }
 }

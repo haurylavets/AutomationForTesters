@@ -1,11 +1,12 @@
 package com.by.addressbook.appManager;
 
+import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
-    ChromeDriver wd;
+    WebDriver wd;
 
     private NavigationHelper navigationHelper;
     private GroupHelper groupHelper;
@@ -14,7 +15,7 @@ public class ApplicationManager {
     public void init() {
         wd = new ChromeDriver();
         wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
-        wd.get("http://localhost/addressbook/group.php");
+        wd.get("http://localhost/addressbook/");
         groupHelper = new GroupHelper(wd);
         contactHelper = new ContactHelper(wd);
         navigationHelper = new NavigationHelper(wd);

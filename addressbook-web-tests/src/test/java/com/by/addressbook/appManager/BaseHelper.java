@@ -2,13 +2,12 @@ package com.by.addressbook.appManager;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
 
 public class BaseHelper {
     protected WebDriver wd;
 
-    public BaseHelper(ChromeDriver wd) {
+    public BaseHelper(WebDriver wd) {
         this.wd = wd;
     }
 
@@ -25,5 +24,9 @@ public class BaseHelper {
     protected void select(By locator, String text) {
         click(locator);
         new Select(wd.findElement(locator)).selectByVisibleText(text);
+    }
+
+    protected void acceptAlert() {
+        wd.switchTo().alert().accept();
     }
 }
