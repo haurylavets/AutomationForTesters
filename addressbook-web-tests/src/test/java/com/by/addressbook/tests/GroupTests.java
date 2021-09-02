@@ -3,7 +3,16 @@ package com.by.addressbook.tests;
 import com.by.addressbook.models.GroupData;
 import org.testng.annotations.Test;
 
-public class ModificationGroup extends TestBase {
+public class GroupTests extends TestBase {
+
+    @Test
+    public void testGroupCreation() {
+        app.getNavigationHelper().goToGroupListPage();
+        app.getNavigationHelper().goToNewGroupPage();
+        app.getGroupHelper().fillGroupForm(new GroupData("test3", "testHeader", "testFooter"));
+        app.getGroupHelper().submitGroupCreation();
+        app.getNavigationHelper().returnToGroupListPage();
+    }
 
     @Test
     public void testGroupModification() {
@@ -12,9 +21,12 @@ public class ModificationGroup extends TestBase {
         app.getNavigationHelper().initGroupEdit();
         app.getGroupHelper().fillGroupForm(new GroupData("test4", "testHeader", "testFooter"));
         app.getGroupHelper().submitGroupUpdate();
-        app.getNavigationHelper().returnToGroupListPage();
+    }
+
+    @Test
+    public void testGroupDelete() {
+        app.getNavigationHelper().goToGroupListPage();
         app.getGroupHelper().selectGroup();
         app.getGroupHelper().deleteSelectedGroup();
     }
-
 }

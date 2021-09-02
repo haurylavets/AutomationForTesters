@@ -1,19 +1,19 @@
 package com.by.addressbook.tests;
 
 import com.by.addressbook.appManager.ApplicationManager;
-import org.testng.annotations.AfterMethod;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.BeforeClass;
 
 public class TestBase {
 
     protected final ApplicationManager app = new ApplicationManager();
 
-    @BeforeMethod(alwaysRun = true)
+    @BeforeClass(alwaysRun = true)
     public void setUp() {
         app.init();
     }
 
-    @AfterMethod(alwaysRun = true)
+    @AfterClass(alwaysRun = true)
     public void tearDown() {
         app.stop();
     }
