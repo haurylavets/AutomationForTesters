@@ -10,6 +10,14 @@ public class ContactHelper extends BaseHelper {
         super(wd);
     }
 
+    public void returnToHomePage() {
+        click(By.linkText("home page"));
+    }
+
+    public void goToNewContactPage() {
+        click(By.linkText("add new"));
+    }
+
     public void fillContactForm(ContactData contactData) {
         type(By.name("firstname"), contactData.getFirstName());
         type(By.name("middlename"), contactData.getMiddleName());
@@ -37,5 +45,16 @@ public class ContactHelper extends BaseHelper {
     public void deleteSelectedContact() {
         click(By.cssSelector("input[value=Delete]"));
         acceptAlert();
+    }
+
+    public void createContact(ContactData contact) {
+        goToNewContactPage();
+        fillContactForm(contact);
+        submitContactCreation();
+        returnToHomePage();
+    }
+
+    public boolean isThereAContact() {
+        return isElementPresent(By.name("selected[]"));
     }
 }

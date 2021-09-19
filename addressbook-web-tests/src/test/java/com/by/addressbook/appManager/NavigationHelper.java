@@ -13,24 +13,8 @@ public class NavigationHelper extends BaseHelper {
         click(By.linkText("home"));
     }
 
-    public void returnToHomePage() {
-        click(By.linkText("home page"));
-    }
-
     public void goToGroupListPage() {
         click(By.linkText("groups"));
-    }
-
-    public void returnToGroupListPage() {
-        click(By.linkText("group page"));
-    }
-
-    public void goToNewGroupPage() {
-        click(By.name("new"));
-    }
-
-    public void goToNewContactPage() {
-        click(By.linkText("add new"));
     }
 
     public void login(String username, String password) {

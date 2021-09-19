@@ -7,23 +7,26 @@ public class ContactTests extends TestBase {
 
     @Test
     public void testContactCreation() {
-        app.getNavigationHelper().goToNewContactPage();
-        app.getContactHelper().fillContactForm(new ContactData("firstName", "middleName", "lastName", "testCompany", "street,1q", "test@test.com", "1", "April", "1980"));
-        app.getContactHelper().submitContactCreation();
-        app.getNavigationHelper().returnToHomePage();
+        app.getContactHelper().createContact(new ContactData("firstName", null, null, null, null, null, "8", "October", "1990"));
     }
 
     @Test
     public void testContactModification() {
         app.getNavigationHelper().goToHomePage();
+        if (!app.getContactHelper().isThereAContact()) {
+            app.getContactHelper().createContact(new ContactData("firstName", null, null, null, null, null, "8", "October", "1990"));
+        }
         app.getNavigationHelper().initContactEdit();
-        app.getContactHelper().fillContactForm(new ContactData("firstName", "middleName", "lastName", "testCompany", "street,1q", "test@test.com", "1", "April", "1980"));
+        app.getContactHelper().fillContactForm(new ContactData("firstName", "middleName", "lastName", "companyName", "Str", "aaa@gmail.com", "8", "October", "1990"));
         app.getContactHelper().submitContactUpdate();
     }
 
     @Test
     public void testContactDelete() {
         app.getNavigationHelper().goToHomePage();
+        if (!app.getContactHelper().isThereAContact()) {
+            app.getContactHelper().createContact(new ContactData("firstName", null, null, null, null, null, "8", "October", "1990"));
+        }
         app.getContactHelper().selectContact();
         app.getContactHelper().deleteSelectedContact();
     }

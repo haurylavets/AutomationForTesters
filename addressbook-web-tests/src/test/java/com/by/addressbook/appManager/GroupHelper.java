@@ -10,6 +10,14 @@ public class GroupHelper extends BaseHelper {
         super(wd);
     }
 
+    public void goToNewGroupPage() {
+        click(By.name("new"));
+    }
+
+    public void returnToGroupListPage() {
+        click(By.linkText("group page"));
+    }
+
     public void fillGroupForm(GroupData groupData) {
         type(By.name("group_name"), groupData.getName());
         type(By.name("group_header"), groupData.getHeader());
@@ -31,5 +39,16 @@ public class GroupHelper extends BaseHelper {
 
     public void deleteSelectedGroup() {
         click(By.name("delete"));
+    }
+
+    public void createGroup(GroupData group) {
+        goToNewGroupPage();
+        fillGroupForm(group);
+        submitGroupCreation();
+        returnToGroupListPage();
+    }
+
+    public boolean isThereAGroup() {
+        return isElementPresent(By.name("selected[]"));
     }
 }
