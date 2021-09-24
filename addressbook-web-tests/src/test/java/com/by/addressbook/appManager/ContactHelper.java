@@ -3,6 +3,10 @@ package com.by.addressbook.appManager;
 import com.by.addressbook.models.ContactData;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ContactHelper extends BaseHelper {
 
@@ -36,10 +40,11 @@ public class ContactHelper extends BaseHelper {
 
     public void submitContactUpdate() {
         click(By.cssSelector("input[value=Update]"));
+        returnToHomePage();
     }
 
-    public void selectContact() {
-        click(By.name("selected[]"));
+    public void selectContact(int index) {
+        wd.findElements(By.name("selected[]")).get(index).click();
     }
 
     public void deleteSelectedContact() {
@@ -57,4 +62,19 @@ public class ContactHelper extends BaseHelper {
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
     }
+
+    public List<ContactData> getContactList() {
+        List<ContactData> contacts = new ArrayList<ContactData>();
+        List<WebElement> elements = wd.findElements(By.cssSelector("tr[name=entry]"));
+        for (WebElement element : elements) {
+            int id = Integer.parseInt(element.findElement(By.tagName("input")).getAttribute("value"));
+            String lastName = element.findElements(By.tagName("td")).get(1).getText();
+            String firstName = element.findElements(By.tagName("td")).get(2).getText();
+
+            ContactData contact = new ContactData(id, firstName, null, lastName, null, null, null, null, null, null);
+            contacts.add(contact);
+        }
+        return contacts;
+    }
 }
+
