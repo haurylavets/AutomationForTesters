@@ -23,11 +23,7 @@ public class NavigationHelper extends BaseHelper {
         click(By.cssSelector("input[type=\"submit\"]"));
     }
 
-    public void initGroupEdit() {
-        click(By.cssSelector("[name=edit]"));
-    }
-
-    public void initContactEdit() {
-        click(By.cssSelector("img[title=Edit]"));
+    public void initContactEdit(int index) {
+        wd.findElements(By.cssSelector("img[title=Edit]")).get(index).click();
     }
 }
