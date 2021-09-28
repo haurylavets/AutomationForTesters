@@ -3,44 +3,18 @@ package com.by.addressbook.models;
 import java.util.Objects;
 
 public class ContactData {
-    private Integer id;
-    private final String firstName;
-    private final String middleName;
-    private final String lastName;
-    private final String companyName;
-    private final String address;
-    private final String email;
+    private Integer id = Integer.MAX_VALUE;
+    ;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String companyName;
+    private String address;
+    private String email;
+    private String birthDay;
+    private String birthMonth;
+    private String birthYear;
 
-
-    public ContactData(Integer id, String firstName, String middleName, String lastName, String companyName, String address, String email, String birthDay, String birthMonth, String birthYear) {
-        this.id = id;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.companyName = companyName;
-        this.address = address;
-        this.email = email;
-        this.birthDay = birthDay;
-        this.birthMonth = birthMonth;
-        this.birthYear = birthYear;
-    }
-
-    private final String birthDay;
-    private final String birthMonth;
-    private final String birthYear;
-
-    public ContactData(String firstName, String middleName, String lastName, String companyName, String address, String email, String birthDay, String birthMonth, String birthYear) {
-        this.id = Integer.MAX_VALUE;
-        this.firstName = firstName;
-        this.middleName = middleName;
-        this.lastName = lastName;
-        this.companyName = companyName;
-        this.address = address;
-        this.email = email;
-        this.birthDay = birthDay;
-        this.birthMonth = birthMonth;
-        this.birthYear = birthYear;
-    }
 
     public Integer getId() {
         return id;
@@ -82,17 +56,67 @@ public class ContactData {
         return birthYear;
     }
 
+    public ContactData withId(Integer id) {
+        this.id = id;
+        return this;
+    }
+
+    public ContactData withFirstName(String firstName) {
+        this.firstName = firstName;
+        return this;
+    }
+
+    public ContactData withMiddleName(String middleName) {
+        this.middleName = middleName;
+        return this;
+    }
+
+    public ContactData withLastName(String lastName) {
+        this.lastName = lastName;
+        return this;
+    }
+
+    public ContactData withCompanyName(String companyName) {
+        this.companyName = companyName;
+        return this;
+    }
+
+    public ContactData withAddress(String address) {
+        this.address = address;
+        return this;
+    }
+
+    public ContactData withEmail(String email) {
+        this.email = email;
+        return this;
+    }
+
+    public ContactData withBirthDay(String birthDay) {
+        this.birthDay = birthDay;
+        return this;
+    }
+
+    public ContactData withBirthMonth(String birthMonth) {
+        this.birthMonth = birthMonth;
+        return this;
+    }
+
+    public ContactData withBirthYear(String birthYear) {
+        this.birthYear = birthYear;
+        return this;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ContactData that = (ContactData) o;
-        return Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName);
+        return Objects.equals(id, that.id) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(firstName, lastName);
+        return Objects.hash(id, firstName, lastName);
     }
 
     @Override

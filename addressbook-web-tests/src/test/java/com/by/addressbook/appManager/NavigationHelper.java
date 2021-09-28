@@ -9,11 +9,11 @@ public class NavigationHelper extends BaseHelper {
         super(wd);
     }
 
-    public void goToHomePage() {
+    public void contactPage() {
         click(By.linkText("home"));
     }
 
-    public void goToGroupListPage() {
+    public void groupListPage() {
         click(By.linkText("groups"));
     }
 
@@ -23,7 +23,8 @@ public class NavigationHelper extends BaseHelper {
         click(By.cssSelector("input[type=\"submit\"]"));
     }
 
-    public void initContactEdit(int index) {
-        wd.findElements(By.cssSelector("img[title=Edit]")).get(index).click();
+    public void modify(int id) {
+        String xpath = String.format("//tr[@name='entry' and .//input[@value='%d']]//img[@title='Edit']", id);
+        click(By.xpath(xpath));
     }
 }

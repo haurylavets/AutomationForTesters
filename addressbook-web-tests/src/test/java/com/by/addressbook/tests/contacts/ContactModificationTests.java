@@ -1,35 +1,40 @@
 package com.by.addressbook.tests.contacts;
 
 import com.by.addressbook.models.ContactData;
+import com.by.addressbook.models.Contacts;
 import com.by.addressbook.tests.TestBase;
-import org.testng.Assert;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-import java.util.Comparator;
-import java.util.List;
+import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.testng.Assert.assertEquals;
 
 public class ContactModificationTests extends TestBase {
 
+    @BeforeMethod
+    public void ensurePreconditions() {
+        app.goTo().contactPage();
+        if (app.contact().all().size() == 0) {
+            app.contact().create(new ContactData().withFirstName("firstName").withLastName("lastName").withBirthDay("8").withBirthMonth("October").withBirthYear("1990"));
+        }
+    }
+
     @Test
     public void testContactModification() {
-        app.getNavigationHelper().goToHomePage();
-        if (!app.getContactHelper().isThereAContact()) {
-            app.getContactHelper().createContact(new ContactData("firstName", null, "lastName", null, null, null, "8", "October", "1990"));
-        }
-        List<ContactData> before = app.getContactHelper().getContactList();
-        app.getNavigationHelper().initContactEdit(before.size() - 1);
-        ContactData contact = new ContactData(before.get(before.size() - 1).getId(), "firstName", null, "lastName", "companyName", "Str", "aaa@gmail.com", "8", "October", "1990");
-        app.getContactHelper().fillContactForm(contact);
-        app.getContactHelper().submitContactUpdate();
-        List<ContactData> after = app.getContactHelper().getContactList();
-        Assert.assertEquals(after.size(), before.size());
+        Contacts before = app.contact().all();
+        ContactData modifiedContact = before.iterator().next();
+        app.goTo().modify(modifiedContact.getId());
+        ContactData contact = new ContactData()
+                .withId(modifiedContact.getId()).withFirstName("firstName").withLastName("lastName")
+                .withCompanyName("companyName").withAddress("Str").withEmail("aaa@gmail.com")
+                .withBirthDay("8").withBirthMonth("October").withBirthYear("1990");
+        app.contact().fillContactForm(contact);
+        app.contact().submitContactUpdate();
+        Contacts after = app.contact().all();
+        assertEquals(after.size(), before.size());
 
-        before.remove(before.size() - 1);
-        before.add(contact);
-        Comparator<? super ContactData> byId = (q1, q2) -> Integer.compare(q1.getId(), q2.getId());
-        before.sort(byId);
-        after.sort(byId);
-        Assert.assertEquals(before, after);
+        assertThat(after, equalTo(before.withOut(modifiedContact).withAdded(contact)));
     }
 
 }

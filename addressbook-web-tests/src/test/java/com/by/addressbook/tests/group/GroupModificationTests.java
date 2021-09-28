@@ -10,26 +10,27 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.testng.Assert.assertEquals;
 
-public class GroupDeletionTests extends TestBase {
+public class GroupModificationTests extends TestBase {
 
     @BeforeMethod
     public void ensurePreconditions() {
         app.goTo().groupListPage();
         if (app.group().all().size() == 0) {
-            app.group().create(new GroupData().withName("test5"));
+            app.group().create(new GroupData().withName("test3"));
         }
     }
 
     @Test
-    public void testGroupDelete() {
+    public void testGroupModification() {
         Groups before = app.group().all();
-        GroupData deletedGroup = before.iterator().next();
-        app.group().delete(deletedGroup);
+        GroupData modifiedGroup = before.iterator().next();
+        GroupData group = new GroupData()
+                .withId(modifiedGroup.getId()).withName("test4")
+                .withHeader("testHeader").withFooter("testFooter");
+        app.group().modify(group);
         Groups after = app.group().all();
-        assertEquals(after.size(), before.size() - 1);
+        assertEquals(after.size(), before.size());
 
-        assertThat(after, equalTo(before.withOut(deletedGroup)));
+        assertThat(after, equalTo(before.withOut(modifiedGroup).withAdded(group)));
     }
-
 }
-
