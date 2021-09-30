@@ -23,8 +23,4 @@ public class NavigationHelper extends BaseHelper {
         click(By.cssSelector("input[type=\"submit\"]"));
     }
 
-    public void modify(int id) {
-        String xpath = String.format("//tr[@name='entry' and .//input[@value='%d']]//img[@title='Edit']", id);
-        click(By.xpath(xpath));
-    }
 }

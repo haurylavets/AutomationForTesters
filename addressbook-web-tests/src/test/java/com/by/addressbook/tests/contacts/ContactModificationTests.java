@@ -8,7 +8,6 @@ import org.testng.annotations.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.testng.Assert.assertEquals;
 
 public class ContactModificationTests extends TestBase {
 
@@ -24,16 +23,15 @@ public class ContactModificationTests extends TestBase {
     public void testContactModification() {
         Contacts before = app.contact().all();
         ContactData modifiedContact = before.iterator().next();
-        app.goTo().modify(modifiedContact.getId());
+        app.contact().modify(modifiedContact.getId());
         ContactData contact = new ContactData()
                 .withId(modifiedContact.getId()).withFirstName("firstName").withLastName("lastName")
                 .withCompanyName("companyName").withAddress("Str").withEmail("aaa@gmail.com")
                 .withBirthDay("8").withBirthMonth("October").withBirthYear("1990");
         app.contact().fillContactForm(contact);
         app.contact().submitContactUpdate();
+        assertThat(app.contact().count(), equalTo(before.size()));
         Contacts after = app.contact().all();
-        assertEquals(after.size(), before.size());
-
         assertThat(after, equalTo(before.withOut(modifiedContact).withAdded(contact)));
     }
 
