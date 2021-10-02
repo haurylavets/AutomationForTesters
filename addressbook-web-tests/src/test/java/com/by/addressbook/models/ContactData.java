@@ -1,13 +1,23 @@
 package com.by.addressbook.models;
 
+import com.google.gson.annotations.Expose;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+
+import java.io.File;
 import java.util.Objects;
 
+@XStreamAlias("contact")
 public class ContactData {
+    @XStreamOmitField
     private Integer id = Integer.MAX_VALUE;
+    @Expose
     private String firstName;
     private String middleName;
+    @Expose
     private String lastName;
     private String companyName;
+    @Expose
     private String address;
     private String email;
     private String email2;
@@ -20,6 +30,7 @@ public class ContactData {
     private String birthYear;
     private String allPhones;
     private String allEmails;
+    private File photo;
 
 
     public String getEmail2() {
@@ -166,20 +177,6 @@ public class ContactData {
         return Objects.equals(id, that.id) && Objects.equals(firstName, that.firstName) && Objects.equals(lastName, that.lastName);
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName);
-    }
-
-    @Override
-    public String toString() {
-        return "ContactData{" +
-                "id='" + id + '\'' +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                '}';
-    }
-
     public String getAllPhones() {
         return allPhones;
     }
@@ -197,5 +194,29 @@ public class ContactData {
         this.allEmails = allEmails;
         return this;
     }
+
+    public File getPhoto() {
+        return photo;
+    }
+
+    public ContactData withPhoto(File photo) {
+        this.photo = photo;
+        return this;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, firstName, lastName);
+    }
+
+    @Override
+    public String toString() {
+        return "ContactData{" +
+                "id='" + id + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                '}';
+    }
+
 
 }

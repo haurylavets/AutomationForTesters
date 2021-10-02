@@ -39,6 +39,7 @@ public class ContactHelper extends BaseHelper {
         select(By.name("bday"), contactData.getBirthDay());
         select(By.name("bmonth"), contactData.getBirthMonth());
         type(By.name("byear"), contactData.getBirthYear());
+        selectFile(By.name("photo"), contactData.getPhoto());
     }
 
     public void submitContactCreation() {
