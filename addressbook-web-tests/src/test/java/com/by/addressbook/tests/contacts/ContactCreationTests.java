@@ -5,11 +5,7 @@ import com.by.addressbook.models.Contacts;
 import com.by.addressbook.models.GroupData;
 import com.by.addressbook.tests.TestBase;
 import com.google.gson.Gson;
-import com.thoughtworks.xstream.XStream;
-import com.thoughtworks.xstream.security.AnyTypePermission;
 import org.openqa.selenium.json.TypeToken;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
@@ -26,8 +22,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 public class ContactCreationTests extends TestBase {
-
-    Logger logger = LoggerFactory.getLogger(ContactCreationTests.class);
 
     @DataProvider
     public Iterator<Object[]> validContactsFromXml() throws IOException {
@@ -51,31 +45,28 @@ public class ContactCreationTests extends TestBase {
     public Iterator<Object[]> validContactsFromJson() throws IOException {
         List<Object[]> list = new ArrayList<Object[]>();
         File photo = new File("src/test/resources/arch (1).png");
-        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.xml")))) {
-            String xml = "";
+        try (BufferedReader reader = new BufferedReader(new FileReader(new File("src/test/resources/contacts.json")))) {
+            String json = "";
             String line = reader.readLine();
             while (line != null) {
-                xml += line;
+                json += line;
                 line = reader.readLine();
             }
-            XStream xstream = new XStream();
-            xstream.addPermission(AnyTypePermission.ANY);
-            xstream.processAnnotations(ContactData.class);
-            List<ContactData> contacts = (List<ContactData>) xstream.fromXML(xml);
+            Gson gson = new Gson();
+            List<ContactData> contacts = gson.fromJson(json, new TypeToken<List<ContactData>>() {
+            }.getType());
             return contacts.stream().map((g) -> new Object[]{g}).collect(Collectors.toList()).iterator();
         }
     }
 
     @Test(dataProvider = "validContactsFromJson")
     public void testContactCreation(ContactData contact) {
-        logger.info("Start tests testContactCreation");
-        Contacts before = app.contact().all();
+        Contacts before = app.db().contacts();
         app.contact().create(contact);
         assertThat(app.contact().count(), equalTo(before.size() + 1));
-        Contacts after = app.contact().all();
+        Contacts after = app.db().contacts();
         assertThat(after, equalTo(before.withAdded(
                 contact.withId(after.stream().mapToInt((i) -> i.getId()).max().getAsInt()))));
-        logger.info("Finish tests testContactCreation");
     }
 }
 

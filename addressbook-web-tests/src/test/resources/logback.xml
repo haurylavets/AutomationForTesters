@@ -1,6 +1,6 @@
 <configuration>
 
-    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"
+    <timestamp key="bySecond" datePattern="yyyyMMdd'T'HHmmss"/>
 
     <appender name="FILE" class="ch.qos.logback.core.FileAppender">
         <file>test-${bySecond}.log</file>
@@ -15,6 +15,9 @@
     </appender>
 
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
         <!-- encoders are assigned the type
              ch.qos.logback.classic.encoder.PatternLayoutEncoder by default -->
         <encoder>
@@ -26,4 +29,6 @@
         <appender-ref ref="FILE"/>
         <appender-ref ref="STDOUT"/>
     </root>
+
+    <logger name="org.asynchttpclient.netty" level="WARN"/>
 </configuration>

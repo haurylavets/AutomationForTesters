@@ -42,7 +42,7 @@ public class CompareContactDataTests extends TestBase {
     }
 
     private String mergePhones(ContactData contact) {
-        return Arrays.asList(contact.getHomePhone(), contact.getWorkPhone(), contact.getMobilePhone())
+        return Arrays.asList(contact.getHomePhone(), contact.getMobilePhone(), contact.getWorkPhone())
                 .stream().filter((s) -> !s.equals(""))
                 .map(CompareContactDataTests::cleaned)
                 .collect(Collectors.joining("\n"));
