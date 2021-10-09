@@ -42,6 +42,13 @@ public class BaseHelper {
         }
     }
 
+    protected void selectByValue(By locator, String text) {
+        if (text != null) {
+            click(locator);
+            new Select(wd.findElement(locator)).selectByValue(text);
+        }
+    }
+
     protected void acceptAlert() {
         wd.switchTo().alert().accept();
     }

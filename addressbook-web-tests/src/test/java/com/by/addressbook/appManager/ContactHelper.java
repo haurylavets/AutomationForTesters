@@ -76,6 +76,11 @@ public class ContactHelper extends BaseHelper {
         click(By.xpath(xpath));
     }
 
+    public void addToGroup(int groupId) {
+        selectByValue(By.cssSelector("select[name=to_group]"), String.valueOf(groupId));
+        click(By.cssSelector("input[name=add]"));
+    }
+
     public boolean isThereAContact() {
         return isElementPresent(By.name("selected[]"));
     }
@@ -130,5 +135,13 @@ public class ContactHelper extends BaseHelper {
                 .withHomePhone(homePhone).withMobilePhone(mobilePhone).withWorkPhone(workPhone);
     }
 
+
+    public void filterByGroup(int id) {
+        selectByValue(By.cssSelector("select[name=group]"), String.valueOf(id));
+    }
+
+    public void removeSelectedFromGroup() {
+        click(By.cssSelector("input[name=remove]"));
+    }
 }
 
