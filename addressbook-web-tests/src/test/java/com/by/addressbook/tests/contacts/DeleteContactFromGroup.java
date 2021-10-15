@@ -1,7 +1,6 @@
 package com.by.addressbook.tests.contacts;
 
 import com.by.addressbook.models.ContactData;
-import com.by.addressbook.models.Contacts;
 import com.by.addressbook.models.GroupData;
 import com.by.addressbook.models.Groups;
 import com.by.addressbook.tests.TestBase;
@@ -32,27 +31,30 @@ public class DeleteContactFromGroup extends TestBase {
     @Test
     public void testContactDeleteFromGroup() {
         app.goTo().contactPage();
-        Contacts before = app.db().contacts();
-        ContactData contactToAdd = before.iterator().next();
-        Groups groupsBefore = contactToAdd.getGroups();
 
-        if (contactToAdd.getGroups().size() == 0) {
+        ContactData contactToAdd = app.db().contacts()
+                .stream().filter(c -> c.getGroups().size() > 0).findFirst().orElse(null);
+        if (contactToAdd == null) {
+            ContactData anyContact = app.db().contacts().iterator().next();
             GroupData anyGroup = app.db().groups().iterator().next();
 
-            app.contact().selectContactById(contactToAdd.getId());
+            app.goTo().contactPage();
+            app.contact().selectContactById(anyContact.getId());
             app.contact().addToGroup(anyGroup.getId());
 
-            groupsBefore = groupsBefore.withAdded(anyGroup);
+            contactToAdd = app.db().contacts().stream().filter(c -> c.getId().equals(anyContact.getId())).findFirst().orElseThrow();
         }
 
+        Groups groupsBefore = contactToAdd.getGroups();
         GroupData groupToRemoveFrom = groupsBefore.iterator().next();
 
         app.contact().filterByGroup(groupToRemoveFrom.getId());
         app.contact().selectContactById(contactToAdd.getId());
         app.contact().removeSelectedFromGroup();
 
+        ContactData finalContactToAdd = contactToAdd;
         ContactData deletedContact = app.db().contacts()
-                .stream().filter((c) -> Objects.equals(c.getId(), contactToAdd.getId())).findFirst().orElseThrow();
+                .stream().filter((c) -> Objects.equals(c.getId(), finalContactToAdd.getId())).findFirst().orElseThrow();
         Groups groupsAfter = deletedContact.getGroups();
         assertThat(groupsAfter.size(), equalTo(groupsBefore.size() - 1));
         assertThat(groupsAfter, equalTo(groupsBefore.withOut(groupToRemoveFrom)));
