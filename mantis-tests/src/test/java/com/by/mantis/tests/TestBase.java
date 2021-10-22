@@ -2,6 +2,7 @@ package com.by.mantis.tests;
 
 import com.by.mantis.appmanager.ApplicationManager;
 import org.openqa.selenium.remote.BrowserType;
+import org.testng.SkipException;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
@@ -26,4 +27,13 @@ public class TestBase {
         app.stop();
     }
 
+    public void skipIfNotFixed(int issueId) {
+        if (isIssueOpen(issueId)) {
+            throw new SkipException("Ignored because of issue " + issueId);
+        }
+    }
+
+    private boolean isIssueOpen(int issueId) {
+        return app.soap().isIssueOpen(issueId);
+    }
 }
