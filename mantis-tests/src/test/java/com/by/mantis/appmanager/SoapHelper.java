@@ -9,9 +9,10 @@ import java.math.BigInteger;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.Arrays;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static java.util.Arrays.asList;
 
 public class SoapHelper {
     private final String password;
@@ -28,7 +29,7 @@ public class SoapHelper {
     public Set<Project> getProjects() throws RemoteException, MalformedURLException, ServiceException {
         MantisConnectPortType mc = getMantisConnect();
         ProjectData[] projects = mc.mc_projects_get_user_accessible(administrator, password);
-        return Arrays.asList(projects).stream().map((p) -> new Project().withId(p.getId().intValue()).withName(p.getName()))
+        return asList(projects).stream().map((p) -> new Project().withId(p.getId().intValue()).withName(p.getName()))
                 .collect(Collectors.toSet());
     }
 
@@ -57,8 +58,12 @@ public class SoapHelper {
     public boolean isIssueOpen(int issueId) {
         try {
             MantisConnectPortType mc = getMantisConnect();
-            return mc.mc_issue_exists(administrator, password, BigInteger.valueOf(issueId));
-        } catch (Exception e) {
+            if (!mc.mc_issue_exists(administrator, password, BigInteger.valueOf(issueId))) {
+                return false;
+            }
+            IssueData issue = mc.mc_issue_get(administrator, password, BigInteger.valueOf(issueId));
+            return !asList("closed", "resolved").contains(issue.getStatus().getName());
+        } catch (RemoteException | MalformedURLException | ServiceException e) {
             throw new RuntimeException(e);
         }
     }
